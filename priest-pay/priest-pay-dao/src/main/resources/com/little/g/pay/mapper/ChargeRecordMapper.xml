@@ -1,0 +1,320 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.little.g.pay.mapper.ChargeRecordMapper">
+  <resultMap id="BaseResultMap" type="com.little.g.pay.model.ChargeRecord">
+    <id column="tran_num" jdbcType="VARCHAR" property="tranNum" />
+    <result column="uid" jdbcType="BIGINT" property="uid" />
+    <result column="money" jdbcType="BIGINT" property="money" />
+    <result column="status" jdbcType="TINYINT" property="status" />
+    <result column="description" jdbcType="VARCHAR" property="description" />
+    <result column="pay_type" jdbcType="TINYINT" property="payType" />
+    <result column="preorder_no" jdbcType="VARCHAR" property="preorderNo" />
+    <result column="mch_id" jdbcType="VARCHAR" property="mchId" />
+    <result column="out_tran_num" jdbcType="VARCHAR" property="outTranNum" />
+    <result column="create_time" jdbcType="BIGINT" property="createTime" />
+    <result column="update_time" jdbcType="BIGINT" property="updateTime" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    tran_num, `uid`, money, `status`, description, pay_type, preorder_no, mch_id, out_tran_num, 
+    create_time, update_time
+  </sql>
+  <select id="selectByExample" parameterType="com.little.g.pay.model.ChargeRecordExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from charge_record
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from charge_record
+    where tran_num = #{tranNum,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from charge_record
+    where tran_num = #{tranNum,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.little.g.pay.model.ChargeRecordExample">
+    delete from charge_record
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.little.g.pay.model.ChargeRecord">
+    insert into charge_record (tran_num, `uid`, money, 
+      `status`, description, pay_type, 
+      preorder_no, mch_id, out_tran_num, 
+      create_time, update_time)
+    values (#{tranNum,jdbcType=VARCHAR}, #{uid,jdbcType=BIGINT}, #{money,jdbcType=BIGINT}, 
+      #{status,jdbcType=TINYINT}, #{description,jdbcType=VARCHAR}, #{payType,jdbcType=TINYINT}, 
+      #{preorderNo,jdbcType=VARCHAR}, #{mchId,jdbcType=VARCHAR}, #{outTranNum,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=BIGINT}, #{updateTime,jdbcType=BIGINT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.little.g.pay.model.ChargeRecord">
+    insert into charge_record
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="tranNum != null">
+        tran_num,
+      </if>
+      <if test="uid != null">
+        `uid`,
+      </if>
+      <if test="money != null">
+        money,
+      </if>
+      <if test="status != null">
+        `status`,
+      </if>
+      <if test="description != null">
+        description,
+      </if>
+      <if test="payType != null">
+        pay_type,
+      </if>
+      <if test="preorderNo != null">
+        preorder_no,
+      </if>
+      <if test="mchId != null">
+        mch_id,
+      </if>
+      <if test="outTranNum != null">
+        out_tran_num,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="tranNum != null">
+        #{tranNum,jdbcType=VARCHAR},
+      </if>
+      <if test="uid != null">
+        #{uid,jdbcType=BIGINT},
+      </if>
+      <if test="money != null">
+        #{money,jdbcType=BIGINT},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=TINYINT},
+      </if>
+      <if test="description != null">
+        #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="payType != null">
+        #{payType,jdbcType=TINYINT},
+      </if>
+      <if test="preorderNo != null">
+        #{preorderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="mchId != null">
+        #{mchId,jdbcType=VARCHAR},
+      </if>
+      <if test="outTranNum != null">
+        #{outTranNum,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=BIGINT},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=BIGINT},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.little.g.pay.model.ChargeRecordExample" resultType="java.lang.Long">
+    select count(*) from charge_record
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update charge_record
+    <set>
+      <if test="record.tranNum != null">
+        tran_num = #{record.tranNum,jdbcType=VARCHAR},
+      </if>
+      <if test="record.uid != null">
+        `uid` = #{record.uid,jdbcType=BIGINT},
+      </if>
+      <if test="record.money != null">
+        money = #{record.money,jdbcType=BIGINT},
+      </if>
+      <if test="record.status != null">
+        `status` = #{record.status,jdbcType=TINYINT},
+      </if>
+      <if test="record.description != null">
+        description = #{record.description,jdbcType=VARCHAR},
+      </if>
+      <if test="record.payType != null">
+        pay_type = #{record.payType,jdbcType=TINYINT},
+      </if>
+      <if test="record.preorderNo != null">
+        preorder_no = #{record.preorderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.mchId != null">
+        mch_id = #{record.mchId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.outTranNum != null">
+        out_tran_num = #{record.outTranNum,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createTime != null">
+        create_time = #{record.createTime,jdbcType=BIGINT},
+      </if>
+      <if test="record.updateTime != null">
+        update_time = #{record.updateTime,jdbcType=BIGINT},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update charge_record
+    set tran_num = #{record.tranNum,jdbcType=VARCHAR},
+      `uid` = #{record.uid,jdbcType=BIGINT},
+      money = #{record.money,jdbcType=BIGINT},
+      `status` = #{record.status,jdbcType=TINYINT},
+      description = #{record.description,jdbcType=VARCHAR},
+      pay_type = #{record.payType,jdbcType=TINYINT},
+      preorder_no = #{record.preorderNo,jdbcType=VARCHAR},
+      mch_id = #{record.mchId,jdbcType=VARCHAR},
+      out_tran_num = #{record.outTranNum,jdbcType=VARCHAR},
+      create_time = #{record.createTime,jdbcType=BIGINT},
+      update_time = #{record.updateTime,jdbcType=BIGINT}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.little.g.pay.model.ChargeRecord">
+    update charge_record
+    <set>
+      <if test="uid != null">
+        `uid` = #{uid,jdbcType=BIGINT},
+      </if>
+      <if test="money != null">
+        money = #{money,jdbcType=BIGINT},
+      </if>
+      <if test="status != null">
+        `status` = #{status,jdbcType=TINYINT},
+      </if>
+      <if test="description != null">
+        description = #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="payType != null">
+        pay_type = #{payType,jdbcType=TINYINT},
+      </if>
+      <if test="preorderNo != null">
+        preorder_no = #{preorderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="mchId != null">
+        mch_id = #{mchId,jdbcType=VARCHAR},
+      </if>
+      <if test="outTranNum != null">
+        out_tran_num = #{outTranNum,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=BIGINT},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=BIGINT},
+      </if>
+    </set>
+    where tran_num = #{tranNum,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.little.g.pay.model.ChargeRecord">
+    update charge_record
+    set `uid` = #{uid,jdbcType=BIGINT},
+      money = #{money,jdbcType=BIGINT},
+      `status` = #{status,jdbcType=TINYINT},
+      description = #{description,jdbcType=VARCHAR},
+      pay_type = #{payType,jdbcType=TINYINT},
+      preorder_no = #{preorderNo,jdbcType=VARCHAR},
+      mch_id = #{mchId,jdbcType=VARCHAR},
+      out_tran_num = #{outTranNum,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=BIGINT},
+      update_time = #{updateTime,jdbcType=BIGINT}
+    where tran_num = #{tranNum,jdbcType=VARCHAR}
+  </update>
+  <select id="selectByExampleWithRowbounds" parameterType="com.little.g.pay.model.ChargeRecordExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from charge_record
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+</mapper>

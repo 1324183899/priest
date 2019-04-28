@@ -1,0 +1,730 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.little.g.pay.mapper.PreorderMapper">
+  <resultMap id="BaseResultMap" type="com.little.g.pay.model.Preorder">
+    <id column="mch_id" jdbcType="VARCHAR" property="mchId" />
+    <id column="pre_order_no" jdbcType="VARCHAR" property="preOrderNo" />
+    <result column="attach" jdbcType="VARCHAR" property="attach" />
+    <result column="out_trade_no" jdbcType="VARCHAR" property="outTradeNo" />
+    <result column="total_fee" jdbcType="BIGINT" property="totalFee" />
+    <result column="account_id" jdbcType="BIGINT" property="accountId" />
+    <result column="opposit_account" jdbcType="BIGINT" property="oppositAccount" />
+    <result column="trade_type" jdbcType="VARCHAR" property="tradeType" />
+    <result column="status" jdbcType="TINYINT" property="status" />
+    <result column="notify_url" jdbcType="VARCHAR" property="notifyUrl" />
+    <result column="subject" jdbcType="VARCHAR" property="subject" />
+    <result column="pay_type" jdbcType="VARCHAR" property="payType" />
+    <result column="create_time" jdbcType="BIGINT" property="createTime" />
+    <result column="update_time" jdbcType="BIGINT" property="updateTime" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    mch_id, pre_order_no, attach, out_trade_no, total_fee, account_id, opposit_account, 
+    trade_type, `status`, notify_url, subject, pay_type, create_time, update_time
+  </sql>
+  <select id="selectByExample" parameterType="com.little.g.pay.model.PreorderExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from preorder
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="com.little.g.pay.model.PreorderKey" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from preorder
+    where mch_id = #{mchId,jdbcType=VARCHAR}
+      and pre_order_no = #{preOrderNo,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="com.little.g.pay.model.PreorderKey">
+    delete from preorder
+    where mch_id = #{mchId,jdbcType=VARCHAR}
+      and pre_order_no = #{preOrderNo,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.little.g.pay.model.PreorderExample">
+    delete from preorder
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.little.g.pay.model.Preorder">
+    insert into preorder (mch_id, pre_order_no, attach, 
+      out_trade_no, total_fee, account_id, 
+      opposit_account, trade_type, `status`, 
+      notify_url, subject, pay_type, 
+      create_time, update_time)
+    values (#{mchId,jdbcType=VARCHAR}, #{preOrderNo,jdbcType=VARCHAR}, #{attach,jdbcType=VARCHAR}, 
+      #{outTradeNo,jdbcType=VARCHAR}, #{totalFee,jdbcType=BIGINT}, #{accountId,jdbcType=BIGINT}, 
+      #{oppositAccount,jdbcType=BIGINT}, #{tradeType,jdbcType=VARCHAR}, #{status,jdbcType=TINYINT}, 
+      #{notifyUrl,jdbcType=VARCHAR}, #{subject,jdbcType=VARCHAR}, #{payType,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=BIGINT}, #{updateTime,jdbcType=BIGINT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.little.g.pay.model.Preorder">
+    insert into preorder
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="mchId != null">
+        mch_id,
+      </if>
+      <if test="preOrderNo != null">
+        pre_order_no,
+      </if>
+      <if test="attach != null">
+        attach,
+      </if>
+      <if test="outTradeNo != null">
+        out_trade_no,
+      </if>
+      <if test="totalFee != null">
+        total_fee,
+      </if>
+      <if test="accountId != null">
+        account_id,
+      </if>
+      <if test="oppositAccount != null">
+        opposit_account,
+      </if>
+      <if test="tradeType != null">
+        trade_type,
+      </if>
+      <if test="status != null">
+        `status`,
+      </if>
+      <if test="notifyUrl != null">
+        notify_url,
+      </if>
+      <if test="subject != null">
+        subject,
+      </if>
+      <if test="payType != null">
+        pay_type,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="mchId != null">
+        #{mchId,jdbcType=VARCHAR},
+      </if>
+      <if test="preOrderNo != null">
+        #{preOrderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="attach != null">
+        #{attach,jdbcType=VARCHAR},
+      </if>
+      <if test="outTradeNo != null">
+        #{outTradeNo,jdbcType=VARCHAR},
+      </if>
+      <if test="totalFee != null">
+        #{totalFee,jdbcType=BIGINT},
+      </if>
+      <if test="accountId != null">
+        #{accountId,jdbcType=BIGINT},
+      </if>
+      <if test="oppositAccount != null">
+        #{oppositAccount,jdbcType=BIGINT},
+      </if>
+      <if test="tradeType != null">
+        #{tradeType,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=TINYINT},
+      </if>
+      <if test="notifyUrl != null">
+        #{notifyUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="subject != null">
+        #{subject,jdbcType=VARCHAR},
+      </if>
+      <if test="payType != null">
+        #{payType,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=BIGINT},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=BIGINT},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.little.g.pay.model.PreorderExample" resultType="java.lang.Long">
+    select count(*) from preorder
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update preorder
+    <set>
+      <if test="record.mchId != null">
+        mch_id = #{record.mchId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.preOrderNo != null">
+        pre_order_no = #{record.preOrderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.attach != null">
+        attach = #{record.attach,jdbcType=VARCHAR},
+      </if>
+      <if test="record.outTradeNo != null">
+        out_trade_no = #{record.outTradeNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.totalFee != null">
+        total_fee = #{record.totalFee,jdbcType=BIGINT},
+      </if>
+      <if test="record.accountId != null">
+        account_id = #{record.accountId,jdbcType=BIGINT},
+      </if>
+      <if test="record.oppositAccount != null">
+        opposit_account = #{record.oppositAccount,jdbcType=BIGINT},
+      </if>
+      <if test="record.tradeType != null">
+        trade_type = #{record.tradeType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.status != null">
+        `status` = #{record.status,jdbcType=TINYINT},
+      </if>
+      <if test="record.notifyUrl != null">
+        notify_url = #{record.notifyUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="record.subject != null">
+        subject = #{record.subject,jdbcType=VARCHAR},
+      </if>
+      <if test="record.payType != null">
+        pay_type = #{record.payType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createTime != null">
+        create_time = #{record.createTime,jdbcType=BIGINT},
+      </if>
+      <if test="record.updateTime != null">
+        update_time = #{record.updateTime,jdbcType=BIGINT},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update preorder
+    set mch_id = #{record.mchId,jdbcType=VARCHAR},
+      pre_order_no = #{record.preOrderNo,jdbcType=VARCHAR},
+      attach = #{record.attach,jdbcType=VARCHAR},
+      out_trade_no = #{record.outTradeNo,jdbcType=VARCHAR},
+      total_fee = #{record.totalFee,jdbcType=BIGINT},
+      account_id = #{record.accountId,jdbcType=BIGINT},
+      opposit_account = #{record.oppositAccount,jdbcType=BIGINT},
+      trade_type = #{record.tradeType,jdbcType=VARCHAR},
+      `status` = #{record.status,jdbcType=TINYINT},
+      notify_url = #{record.notifyUrl,jdbcType=VARCHAR},
+      subject = #{record.subject,jdbcType=VARCHAR},
+      pay_type = #{record.payType,jdbcType=VARCHAR},
+      create_time = #{record.createTime,jdbcType=BIGINT},
+      update_time = #{record.updateTime,jdbcType=BIGINT}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.little.g.pay.model.Preorder">
+    update preorder
+    <set>
+      <if test="attach != null">
+        attach = #{attach,jdbcType=VARCHAR},
+      </if>
+      <if test="outTradeNo != null">
+        out_trade_no = #{outTradeNo,jdbcType=VARCHAR},
+      </if>
+      <if test="totalFee != null">
+        total_fee = #{totalFee,jdbcType=BIGINT},
+      </if>
+      <if test="accountId != null">
+        account_id = #{accountId,jdbcType=BIGINT},
+      </if>
+      <if test="oppositAccount != null">
+        opposit_account = #{oppositAccount,jdbcType=BIGINT},
+      </if>
+      <if test="tradeType != null">
+        trade_type = #{tradeType,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        `status` = #{status,jdbcType=TINYINT},
+      </if>
+      <if test="notifyUrl != null">
+        notify_url = #{notifyUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="subject != null">
+        subject = #{subject,jdbcType=VARCHAR},
+      </if>
+      <if test="payType != null">
+        pay_type = #{payType,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=BIGINT},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=BIGINT},
+      </if>
+    </set>
+    where mch_id = #{mchId,jdbcType=VARCHAR}
+      and pre_order_no = #{preOrderNo,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.little.g.pay.model.Preorder">
+    update preorder
+    set attach = #{attach,jdbcType=VARCHAR},
+      out_trade_no = #{outTradeNo,jdbcType=VARCHAR},
+      total_fee = #{totalFee,jdbcType=BIGINT},
+      account_id = #{accountId,jdbcType=BIGINT},
+      opposit_account = #{oppositAccount,jdbcType=BIGINT},
+      trade_type = #{tradeType,jdbcType=VARCHAR},
+      `status` = #{status,jdbcType=TINYINT},
+      notify_url = #{notifyUrl,jdbcType=VARCHAR},
+      subject = #{subject,jdbcType=VARCHAR},
+      pay_type = #{payType,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=BIGINT},
+      update_time = #{updateTime,jdbcType=BIGINT}
+    where mch_id = #{mchId,jdbcType=VARCHAR}
+      and pre_order_no = #{preOrderNo,jdbcType=VARCHAR}
+  </update>
+  <select id="selectByExampleWithRowbounds" parameterType="com.little.g.pay.model.PreorderExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from preorder
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <resultMap id="BaseResultMap" type="com.little.g.pay.model.Preorder">
+    <id column="mch_id" jdbcType="VARCHAR" property="mchId" />
+    <id column="pre_order_no" jdbcType="VARCHAR" property="preOrderNo" />
+    <result column="attach" jdbcType="VARCHAR" property="attach" />
+    <result column="out_trade_no" jdbcType="VARCHAR" property="outTradeNo" />
+    <result column="total_fee" jdbcType="BIGINT" property="totalFee" />
+    <result column="account_id" jdbcType="BIGINT" property="accountId" />
+    <result column="opposit_account" jdbcType="BIGINT" property="oppositAccount" />
+    <result column="trade_type" jdbcType="VARCHAR" property="tradeType" />
+    <result column="status" jdbcType="TINYINT" property="status" />
+    <result column="notify_url" jdbcType="VARCHAR" property="notifyUrl" />
+    <result column="subject" jdbcType="VARCHAR" property="subject" />
+    <result column="pay_type" jdbcType="VARCHAR" property="payType" />
+    <result column="create_time" jdbcType="BIGINT" property="createTime" />
+    <result column="update_time" jdbcType="BIGINT" property="updateTime" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    mch_id, pre_order_no, attach, out_trade_no, total_fee, account_id, opposit_account, 
+    trade_type, `status`, notify_url, subject, pay_type, create_time, update_time
+  </sql>
+  <select id="selectByExample" parameterType="com.little.g.pay.model.PreorderExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from preorder
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="com.little.g.pay.model.PreorderKey" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from preorder
+    where mch_id = #{mchId,jdbcType=VARCHAR}
+      and pre_order_no = #{preOrderNo,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="com.little.g.pay.model.PreorderKey">
+    delete from preorder
+    where mch_id = #{mchId,jdbcType=VARCHAR}
+      and pre_order_no = #{preOrderNo,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.little.g.pay.model.PreorderExample">
+    delete from preorder
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.little.g.pay.model.Preorder">
+    insert into preorder (mch_id, pre_order_no, attach, 
+      out_trade_no, total_fee, account_id, 
+      opposit_account, trade_type, `status`, 
+      notify_url, subject, pay_type, 
+      create_time, update_time)
+    values (#{mchId,jdbcType=VARCHAR}, #{preOrderNo,jdbcType=VARCHAR}, #{attach,jdbcType=VARCHAR}, 
+      #{outTradeNo,jdbcType=VARCHAR}, #{totalFee,jdbcType=BIGINT}, #{accountId,jdbcType=BIGINT}, 
+      #{oppositAccount,jdbcType=BIGINT}, #{tradeType,jdbcType=VARCHAR}, #{status,jdbcType=TINYINT}, 
+      #{notifyUrl,jdbcType=VARCHAR}, #{subject,jdbcType=VARCHAR}, #{payType,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=BIGINT}, #{updateTime,jdbcType=BIGINT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.little.g.pay.model.Preorder">
+    insert into preorder
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="mchId != null">
+        mch_id,
+      </if>
+      <if test="preOrderNo != null">
+        pre_order_no,
+      </if>
+      <if test="attach != null">
+        attach,
+      </if>
+      <if test="outTradeNo != null">
+        out_trade_no,
+      </if>
+      <if test="totalFee != null">
+        total_fee,
+      </if>
+      <if test="accountId != null">
+        account_id,
+      </if>
+      <if test="oppositAccount != null">
+        opposit_account,
+      </if>
+      <if test="tradeType != null">
+        trade_type,
+      </if>
+      <if test="status != null">
+        `status`,
+      </if>
+      <if test="notifyUrl != null">
+        notify_url,
+      </if>
+      <if test="subject != null">
+        subject,
+      </if>
+      <if test="payType != null">
+        pay_type,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="mchId != null">
+        #{mchId,jdbcType=VARCHAR},
+      </if>
+      <if test="preOrderNo != null">
+        #{preOrderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="attach != null">
+        #{attach,jdbcType=VARCHAR},
+      </if>
+      <if test="outTradeNo != null">
+        #{outTradeNo,jdbcType=VARCHAR},
+      </if>
+      <if test="totalFee != null">
+        #{totalFee,jdbcType=BIGINT},
+      </if>
+      <if test="accountId != null">
+        #{accountId,jdbcType=BIGINT},
+      </if>
+      <if test="oppositAccount != null">
+        #{oppositAccount,jdbcType=BIGINT},
+      </if>
+      <if test="tradeType != null">
+        #{tradeType,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=TINYINT},
+      </if>
+      <if test="notifyUrl != null">
+        #{notifyUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="subject != null">
+        #{subject,jdbcType=VARCHAR},
+      </if>
+      <if test="payType != null">
+        #{payType,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=BIGINT},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=BIGINT},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.little.g.pay.model.PreorderExample" resultType="java.lang.Long">
+    select count(*) from preorder
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update preorder
+    <set>
+      <if test="record.mchId != null">
+        mch_id = #{record.mchId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.preOrderNo != null">
+        pre_order_no = #{record.preOrderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.attach != null">
+        attach = #{record.attach,jdbcType=VARCHAR},
+      </if>
+      <if test="record.outTradeNo != null">
+        out_trade_no = #{record.outTradeNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.totalFee != null">
+        total_fee = #{record.totalFee,jdbcType=BIGINT},
+      </if>
+      <if test="record.accountId != null">
+        account_id = #{record.accountId,jdbcType=BIGINT},
+      </if>
+      <if test="record.oppositAccount != null">
+        opposit_account = #{record.oppositAccount,jdbcType=BIGINT},
+      </if>
+      <if test="record.tradeType != null">
+        trade_type = #{record.tradeType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.status != null">
+        `status` = #{record.status,jdbcType=TINYINT},
+      </if>
+      <if test="record.notifyUrl != null">
+        notify_url = #{record.notifyUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="record.subject != null">
+        subject = #{record.subject,jdbcType=VARCHAR},
+      </if>
+      <if test="record.payType != null">
+        pay_type = #{record.payType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createTime != null">
+        create_time = #{record.createTime,jdbcType=BIGINT},
+      </if>
+      <if test="record.updateTime != null">
+        update_time = #{record.updateTime,jdbcType=BIGINT},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update preorder
+    set mch_id = #{record.mchId,jdbcType=VARCHAR},
+      pre_order_no = #{record.preOrderNo,jdbcType=VARCHAR},
+      attach = #{record.attach,jdbcType=VARCHAR},
+      out_trade_no = #{record.outTradeNo,jdbcType=VARCHAR},
+      total_fee = #{record.totalFee,jdbcType=BIGINT},
+      account_id = #{record.accountId,jdbcType=BIGINT},
+      opposit_account = #{record.oppositAccount,jdbcType=BIGINT},
+      trade_type = #{record.tradeType,jdbcType=VARCHAR},
+      `status` = #{record.status,jdbcType=TINYINT},
+      notify_url = #{record.notifyUrl,jdbcType=VARCHAR},
+      subject = #{record.subject,jdbcType=VARCHAR},
+      pay_type = #{record.payType,jdbcType=VARCHAR},
+      create_time = #{record.createTime,jdbcType=BIGINT},
+      update_time = #{record.updateTime,jdbcType=BIGINT}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.little.g.pay.model.Preorder">
+    update preorder
+    <set>
+      <if test="attach != null">
+        attach = #{attach,jdbcType=VARCHAR},
+      </if>
+      <if test="outTradeNo != null">
+        out_trade_no = #{outTradeNo,jdbcType=VARCHAR},
+      </if>
+      <if test="totalFee != null">
+        total_fee = #{totalFee,jdbcType=BIGINT},
+      </if>
+      <if test="accountId != null">
+        account_id = #{accountId,jdbcType=BIGINT},
+      </if>
+      <if test="oppositAccount != null">
+        opposit_account = #{oppositAccount,jdbcType=BIGINT},
+      </if>
+      <if test="tradeType != null">
+        trade_type = #{tradeType,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        `status` = #{status,jdbcType=TINYINT},
+      </if>
+      <if test="notifyUrl != null">
+        notify_url = #{notifyUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="subject != null">
+        subject = #{subject,jdbcType=VARCHAR},
+      </if>
+      <if test="payType != null">
+        pay_type = #{payType,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=BIGINT},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=BIGINT},
+      </if>
+    </set>
+    where mch_id = #{mchId,jdbcType=VARCHAR}
+      and pre_order_no = #{preOrderNo,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.little.g.pay.model.Preorder">
+    update preorder
+    set attach = #{attach,jdbcType=VARCHAR},
+      out_trade_no = #{outTradeNo,jdbcType=VARCHAR},
+      total_fee = #{totalFee,jdbcType=BIGINT},
+      account_id = #{accountId,jdbcType=BIGINT},
+      opposit_account = #{oppositAccount,jdbcType=BIGINT},
+      trade_type = #{tradeType,jdbcType=VARCHAR},
+      `status` = #{status,jdbcType=TINYINT},
+      notify_url = #{notifyUrl,jdbcType=VARCHAR},
+      subject = #{subject,jdbcType=VARCHAR},
+      pay_type = #{payType,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=BIGINT},
+      update_time = #{updateTime,jdbcType=BIGINT}
+    where mch_id = #{mchId,jdbcType=VARCHAR}
+      and pre_order_no = #{preOrderNo,jdbcType=VARCHAR}
+  </update>
+  <select id="selectByExampleWithRowbounds" parameterType="com.little.g.pay.model.PreorderExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from preorder
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+</mapper>
