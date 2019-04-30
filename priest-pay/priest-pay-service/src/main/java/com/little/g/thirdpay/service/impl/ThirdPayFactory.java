@@ -29,11 +29,15 @@ public class ThirdPayFactory {
     @Resource
     PayChannelMapper payChannelMapper;
 
+    List<PayChannel> channelList;
+
     private static final String CONFIG_VERSION = "little";
 
     @PostConstruct
     public void init() {
+
         List<PayChannel> channels = payChannelMapper.selectByExample(new PayChannelExample());
+        channelList = channels;
         if (channels != null && channels.size() > 0) {
             for (PayChannel channel : channels) {
                 register(channel);
@@ -41,6 +45,9 @@ public class ThirdPayFactory {
         }
     }
 
+    public List<PayChannel> getChannelList() {
+        return channelList;
+    }
 
     public ThirdPayService getThirdPayService(String code) {
         String type = getKey(code);

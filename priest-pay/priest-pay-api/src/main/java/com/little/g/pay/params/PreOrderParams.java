@@ -1,5 +1,6 @@
 package com.little.g.pay.params;
 
+import com.little.g.pay.enums.MerchantId;
 import com.little.g.pay.enums.TradeType;
 
 import javax.validation.constraints.Min;
@@ -12,7 +13,7 @@ public class PreOrderParams implements Serializable {
      * 商户ID
      */
     @NotEmpty
-    private String mchId;
+    private String mchId = MerchantId.LittelG.getValue();
     @NotEmpty
     /**
      * 三方关联流水

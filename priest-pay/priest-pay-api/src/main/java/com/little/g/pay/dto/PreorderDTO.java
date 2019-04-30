@@ -130,6 +130,22 @@ public class PreorderDTO  implements Serializable {
         this.updateTime = updateTime;
     }
 
+    public String getMchId() {
+        return mchId;
+    }
+
+    public void setMchId(String mchId) {
+        this.mchId = mchId;
+    }
+
+    public String getPreOrderNo() {
+        return preOrderNo;
+    }
+
+    public void setPreOrderNo(String preOrderNo) {
+        this.preOrderNo = preOrderNo;
+    }
+
     @Override
     public String toString() {
         return "PreorderDTO{" +
