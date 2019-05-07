@@ -7,4 +7,5 @@ public class PayType {
 
     public static final String ALIPAY="alipay";
     public static final String WEXINPAY="weixinpay";
+    public static final String BALANCE="balance";
 }

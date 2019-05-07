@@ -634,6 +634,66 @@ public class PreorderExample {
             return (Criteria) this;
         }
 
+        public Criteria andBtypeIsNull() {
+            addCriterion("btype is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andBtypeIsNotNull() {
+            addCriterion("btype is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andBtypeEqualTo(Byte value) {
+            addCriterion("btype =", value, "btype");
+            return (Criteria) this;
+        }
+
+        public Criteria andBtypeNotEqualTo(Byte value) {
+            addCriterion("btype <>", value, "btype");
+            return (Criteria) this;
+        }
+
+        public Criteria andBtypeGreaterThan(Byte value) {
+            addCriterion("btype >", value, "btype");
+            return (Criteria) this;
+        }
+
+        public Criteria andBtypeGreaterThanOrEqualTo(Byte value) {
+            addCriterion("btype >=", value, "btype");
+            return (Criteria) this;
+        }
+
+        public Criteria andBtypeLessThan(Byte value) {
+            addCriterion("btype <", value, "btype");
+            return (Criteria) this;
+        }
+
+        public Criteria andBtypeLessThanOrEqualTo(Byte value) {
+            addCriterion("btype <=", value, "btype");
+            return (Criteria) this;
+        }
+
+        public Criteria andBtypeIn(List<Byte> values) {
+            addCriterion("btype in", values, "btype");
+            return (Criteria) this;
+        }
+
+        public Criteria andBtypeNotIn(List<Byte> values) {
+            addCriterion("btype not in", values, "btype");
+            return (Criteria) this;
+        }
+
+        public Criteria andBtypeBetween(Byte value1, Byte value2) {
+            addCriterion("btype between", value1, value2, "btype");
+            return (Criteria) this;
+        }
+
+        public Criteria andBtypeNotBetween(Byte value1, Byte value2) {
+            addCriterion("btype not between", value1, value2, "btype");
+            return (Criteria) this;
+        }
+
         public Criteria andStatusIsNull() {
             addCriterion("`status` is null");
             return (Criteria) this;

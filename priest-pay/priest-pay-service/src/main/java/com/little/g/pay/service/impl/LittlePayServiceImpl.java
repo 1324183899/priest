@@ -1,16 +1,19 @@
 package com.little.g.pay.service.impl;
 
 import com.little.g.common.ResultJson;
+import com.little.g.common.enums.PayType;
 import com.little.g.common.enums.StatusEnum;
 import com.little.g.common.exception.ServiceDataException;
 import com.little.g.pay.PayErrorCodes;
 import com.little.g.pay.api.ChargeService;
 import com.little.g.pay.api.LittlePayService;
 import com.little.g.pay.api.PreOrderService;
-import com.little.g.pay.dto.ChargeRecordDTO;
-import com.little.g.pay.dto.PayTypeDTO;
-import com.little.g.pay.dto.PreorderDTO;
+import com.little.g.pay.api.TransactionService;
+import com.little.g.pay.dto.*;
+import com.little.g.pay.enums.BusinessType;
+import com.little.g.pay.enums.FixAccount;
 import com.little.g.pay.enums.MerchantId;
+import com.little.g.pay.enums.TradeType;
 import com.little.g.pay.params.ChargeParams;
 import com.little.g.thirdpay.api.ThirdpayApi;
 import com.little.g.thirdpay.dto.PrePayResult;
@@ -41,6 +44,8 @@ public class LittlePayServiceImpl implements LittlePayService {
     private ThirdpayApi thirdpayApi;
     @Resource
     private ChargeService chargeService;
+    @Resource
+    private TransactionService transactionService;
 
     @PostConstruct
     public void init(){
@@ -115,14 +120,35 @@ public class LittlePayServiceImpl implements LittlePayService {
         return prePay(uid,payType,preorderNo);
     }
 
+    @Transactional
     @Override
     public ResultJson pay(@NotBlank Long uid, @NotEmpty String preorderNo) {
 
-        /**
-         * TODO: 余额支付，需采用回调
-         */
+        ResultJson r=new ResultJson();
 
+        PreorderDTO preorderDTO=getUserPreorder(uid,preorderNo);
+        if(Objects.equals(preorderDTO.getStatus(),StatusEnum.SUCCESS.getValue())){
+            return r;
+        }
+        if(!Objects.equals(preorderDTO.getStatus(),StatusEnum.INIT.getValue())){
+            r.setC(PayErrorCodes.PAY_ERROR);
+            r.setM("msg.pay.status.error");
+            return r;
+        }
 
-        return null;
+        if(!Objects.equals(TradeType.TRANSFER.getValue(),preorderDTO.getTradeType())){
+            r.setC(PayErrorCodes.PAY_ERROR);
+            r.setM("msg.pay.status.error");
+            return r;
+        }
+
+        Account from=FixAccount.isFixAccount(preorderDTO.getAccountId())? new com.little.g.pay.dto.FixAccount(preorderDTO.getAccountId(),false):new NormalUserAccount(preorderDTO.getAccountId());
+        Account to=FixAccount.isFixAccount(preorderDTO.getOppositAccount())? new com.little.g.pay.dto.FixAccount(preorderDTO.getOppositAccount(),false):new NormalUserAccount(preorderDTO.getOppositAccount());
+        BusinessType btype=BusinessType.valueOf(preorderDTO.getBtype());
+        transactionService.transfer(from,to,preorderDTO.getTotalFee(),preorderDTO.getOutTradeNo(),btype,preorderDTO.getSubject());
+        //支付成功更新预支付订单支付状态
+        preOrderService.updateStatus(uid,preorderNo,StatusEnum.SUCCESS.getValue(), PayType.BALANCE);
+
+        return r;
     }
 }

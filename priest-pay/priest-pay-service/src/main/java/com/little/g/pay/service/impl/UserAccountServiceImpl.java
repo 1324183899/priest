@@ -74,7 +74,7 @@ public class UserAccountServiceImpl implements UserAccountService {
     }
 
     @Transactional(propagation = Propagation.REQUIRES_NEW, isolation = Isolation.READ_COMMITTED)
-    private UserAccount initAccount(Long uid) {
+    UserAccount initAccount(Long uid) {
         UserDTO user = userService.getUserById(uid);
         if (user == null) {
             throw new ServiceDataException(UserErrorCodes.USER_NOT_EXIST,"msg.user.not.exist");

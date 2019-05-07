@@ -1,5 +1,8 @@
 package com.little.g.pay.enums;
 
+import com.little.g.common.exception.ServiceDataException;
+import com.little.g.pay.PayErrorCodes;
+
 import java.util.Objects;
 
 /**
@@ -29,6 +32,6 @@ public enum BusinessType {
                 return type;
             }
         }
-        return null;
+        throw new ServiceDataException(PayErrorCodes.PAY_ERROR,"msg.pay.unknow.btype");
     }
 }

@@ -12,6 +12,8 @@ public class PreorderDTO  implements Serializable {
 
     private String outTradeNo;
 
+    private Byte btype;
+
     private Long totalFee;
 
     private Long accountId;
@@ -146,6 +148,14 @@ public class PreorderDTO  implements Serializable {
         this.preOrderNo = preOrderNo;
     }
 
+    public Byte getBtype() {
+        return btype;
+    }
+
+    public void setBtype(Byte btype) {
+        this.btype = btype;
+    }
+
     @Override
     public String toString() {
         return "PreorderDTO{" +
@@ -153,6 +163,7 @@ public class PreorderDTO  implements Serializable {
                 ", preOrderNo='" + preOrderNo + '\'' +
                 ", attach='" + attach + '\'' +
                 ", outTradeNo='" + outTradeNo + '\'' +
+                ", btype=" + btype +
                 ", totalFee=" + totalFee +
                 ", accountId=" + accountId +
                 ", oppositAccount=" + oppositAccount +

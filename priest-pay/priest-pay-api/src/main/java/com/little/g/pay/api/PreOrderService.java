@@ -25,4 +25,16 @@ public interface PreOrderService {
      * @return
      */
     PreorderDTO get(@NotEmpty  String mchId,@NotEmpty String preorderNo);
+
+
+    /**
+     * 更新状态
+     * @param uid 用户ID
+     * @param preorderNo  预支付订单
+     * @param status 状态值
+     * @return
+     */
+    boolean updateStatus(@NotNull Long uid,@NotEmpty String preorderNo,Byte status,@NotEmpty String payType);
+
+
 }

@@ -15,6 +15,8 @@ public class Preorder extends PreorderKey implements Serializable {
 
     private String tradeType;
 
+    private Byte btype;
+
     private Byte status;
 
     private String notifyUrl;
@@ -75,6 +77,14 @@ public class Preorder extends PreorderKey implements Serializable {
 
     public void setTradeType(String tradeType) {
         this.tradeType = tradeType == null ? null : tradeType.trim();
+    }
+
+    public Byte getBtype() {
+        return btype;
+    }
+
+    public void setBtype(Byte btype) {
+        this.btype = btype;
     }
 
     public Byte getStatus() {

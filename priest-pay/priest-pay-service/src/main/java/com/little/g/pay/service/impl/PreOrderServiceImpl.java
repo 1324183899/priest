@@ -1,7 +1,10 @@
 package com.little.g.pay.service.impl;
 
+import com.alibaba.fastjson.JSONObject;
+import com.little.g.common.ResultJson;
 import com.little.g.common.enums.StatusEnum;
 import com.little.g.common.exception.ServiceDataException;
+import com.little.g.common.utils.HttpUtils;
 import com.little.g.pay.PayErrorCodes;
 import com.little.g.pay.api.PreOrderService;
 import com.little.g.pay.dto.PreorderDTO;
@@ -14,6 +17,7 @@ import com.little.g.pay.params.PreOrderParams;
 import com.little.g.pay.utils.TransactionNumUtil;
 import com.little.g.user.api.UserService;
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,7 +25,9 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.annotation.Resource;
 import javax.validation.Valid;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.util.List;
+import java.util.Objects;
 
 @Service("preOrderService")
 public class PreOrderServiceImpl implements PreOrderService {
@@ -100,6 +106,36 @@ public class PreOrderServiceImpl implements PreOrderService {
         return dto;
     }
 
+    @Transactional
+    @Override
+    public boolean updateStatus(@NotNull Long uid, @NotEmpty String preorderNo, Byte status, @NotEmpty String payType) {
 
+        PreorderExample example=new PreorderExample();
+        example.or().andAccountIdEqualTo(uid)
+                    .andPreOrderNoEqualTo(preorderNo)
+                    .andStatusEqualTo(StatusEnum.INIT.getValue());
+        List<Preorder> list = preorderMapper.selectByExample(example);
+        if(CollectionUtils.isEmpty(list)){
+            throw new ServiceDataException(PayErrorCodes.PAY_ERROR,"msg.pay.preorder.notexist");
+        }
+        Preorder preorder=list.get(0);
 
+        preorder.setPayType(payType);
+        preorder.setStatus(status);
+        preorder.setUpdateTime(System.currentTimeMillis());
+
+        boolean r=preorderMapper.updateByPrimaryKeySelective(preorder)>0;
+        //成功
+        if(Objects.equals(StatusEnum.SUCCESS,status)){
+            //发送通知
+            if(StringUtils.isNotEmpty(preorder.getNotifyUrl())){
+                //发送通知
+                ResultJson result=HttpUtils.post(preorder.getNotifyUrl(),null,JSONObject.toJSONString(preorder),ResultJson.class);
+                if(result != null && result.getC()==ResultJson.SUCCESSFUL){
+                    return true;
+                }
+            }
+        }
+        return r;
+    }
 }

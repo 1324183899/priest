@@ -10,6 +10,7 @@
     <result column="account_id" jdbcType="BIGINT" property="accountId" />
     <result column="opposit_account" jdbcType="BIGINT" property="oppositAccount" />
     <result column="trade_type" jdbcType="VARCHAR" property="tradeType" />
+    <result column="btype" jdbcType="TINYINT" property="btype" />
     <result column="status" jdbcType="TINYINT" property="status" />
     <result column="notify_url" jdbcType="VARCHAR" property="notifyUrl" />
     <result column="subject" jdbcType="VARCHAR" property="subject" />
@@ -77,7 +78,7 @@
   </sql>
   <sql id="Base_Column_List">
     mch_id, pre_order_no, attach, out_trade_no, total_fee, account_id, opposit_account, 
-    trade_type, `status`, notify_url, subject, pay_type, create_time, update_time
+    trade_type, btype, `status`, notify_url, subject, pay_type, create_time, update_time
   </sql>
   <select id="selectByExample" parameterType="com.little.g.pay.model.PreorderExample" resultMap="BaseResultMap">
     select
@@ -114,14 +115,16 @@
   <insert id="insert" parameterType="com.little.g.pay.model.Preorder">
     insert into preorder (mch_id, pre_order_no, attach, 
       out_trade_no, total_fee, account_id, 
-      opposit_account, trade_type, `status`, 
-      notify_url, subject, pay_type, 
-      create_time, update_time)
+      opposit_account, trade_type, btype, 
+      `status`, notify_url, subject, 
+      pay_type, create_time, update_time
+      )
     values (#{mchId,jdbcType=VARCHAR}, #{preOrderNo,jdbcType=VARCHAR}, #{attach,jdbcType=VARCHAR}, 
       #{outTradeNo,jdbcType=VARCHAR}, #{totalFee,jdbcType=BIGINT}, #{accountId,jdbcType=BIGINT}, 
-      #{oppositAccount,jdbcType=BIGINT}, #{tradeType,jdbcType=VARCHAR}, #{status,jdbcType=TINYINT}, 
-      #{notifyUrl,jdbcType=VARCHAR}, #{subject,jdbcType=VARCHAR}, #{payType,jdbcType=VARCHAR}, 
-      #{createTime,jdbcType=BIGINT}, #{updateTime,jdbcType=BIGINT})
+      #{oppositAccount,jdbcType=BIGINT}, #{tradeType,jdbcType=VARCHAR}, #{btype,jdbcType=TINYINT}, 
+      #{status,jdbcType=TINYINT}, #{notifyUrl,jdbcType=VARCHAR}, #{subject,jdbcType=VARCHAR}, 
+      #{payType,jdbcType=VARCHAR}, #{createTime,jdbcType=BIGINT}, #{updateTime,jdbcType=BIGINT}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.little.g.pay.model.Preorder">
     insert into preorder
@@ -149,6 +152,9 @@
       </if>
       <if test="tradeType != null">
         trade_type,
+      </if>
+      <if test="btype != null">
+        btype,
       </if>
       <if test="status != null">
         `status`,
@@ -193,6 +199,9 @@
       </if>
       <if test="tradeType != null">
         #{tradeType,jdbcType=VARCHAR},
+      </if>
+      <if test="btype != null">
+        #{btype,jdbcType=TINYINT},
       </if>
       <if test="status != null">
         #{status,jdbcType=TINYINT},
@@ -247,6 +256,9 @@
       <if test="record.tradeType != null">
         trade_type = #{record.tradeType,jdbcType=VARCHAR},
       </if>
+      <if test="record.btype != null">
+        btype = #{record.btype,jdbcType=TINYINT},
+      </if>
       <if test="record.status != null">
         `status` = #{record.status,jdbcType=TINYINT},
       </if>
@@ -280,6 +292,7 @@
       account_id = #{record.accountId,jdbcType=BIGINT},
       opposit_account = #{record.oppositAccount,jdbcType=BIGINT},
       trade_type = #{record.tradeType,jdbcType=VARCHAR},
+      btype = #{record.btype,jdbcType=TINYINT},
       `status` = #{record.status,jdbcType=TINYINT},
       notify_url = #{record.notifyUrl,jdbcType=VARCHAR},
       subject = #{record.subject,jdbcType=VARCHAR},
@@ -311,6 +324,9 @@
       <if test="tradeType != null">
         trade_type = #{tradeType,jdbcType=VARCHAR},
       </if>
+      <if test="btype != null">
+        btype = #{btype,jdbcType=TINYINT},
+      </if>
       <if test="status != null">
         `status` = #{status,jdbcType=TINYINT},
       </if>
@@ -341,6 +357,7 @@
       account_id = #{accountId,jdbcType=BIGINT},
       opposit_account = #{oppositAccount,jdbcType=BIGINT},
       trade_type = #{tradeType,jdbcType=VARCHAR},
+      btype = #{btype,jdbcType=TINYINT},
       `status` = #{status,jdbcType=TINYINT},
       notify_url = #{notifyUrl,jdbcType=VARCHAR},
       subject = #{subject,jdbcType=VARCHAR},
