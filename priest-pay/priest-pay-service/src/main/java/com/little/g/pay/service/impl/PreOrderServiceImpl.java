@@ -7,6 +7,7 @@ import com.little.g.common.enums.StatusEnum;
 import com.little.g.common.exception.ServiceDataException;
 import com.little.g.common.utils.HttpUtils;
 import com.little.g.pay.PayErrorCodes;
+import com.little.g.pay.api.ChargeService;
 import com.little.g.pay.api.PreOrderService;
 import com.little.g.pay.dto.PreorderDTO;
 import com.little.g.pay.enums.MerchantId;
@@ -38,6 +39,8 @@ public class PreOrderServiceImpl implements PreOrderService {
 
     @Resource
     private UserService userService;
+    @Resource
+    private ChargeService chargeService;
 
 
     @Transactional
@@ -131,7 +134,7 @@ public class PreOrderServiceImpl implements PreOrderService {
 
         if(!Objects.equals(PayType.BALANCE,payType) || Objects.equals(TradeType.CHARGE.getValue(),preorder.getTradeType())){
             //先充值，后扣款
-
+            chargeService.chargeSuccess(preorderNo,payType,thirdyPayNo);
 
         }
 

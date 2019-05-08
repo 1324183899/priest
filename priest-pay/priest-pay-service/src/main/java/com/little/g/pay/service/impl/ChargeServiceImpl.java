@@ -5,9 +5,13 @@ import com.little.g.common.exception.ServiceDataException;
 import com.little.g.pay.PayErrorCodes;
 import com.little.g.pay.api.ChargeService;
 import com.little.g.pay.api.PreOrderService;
+import com.little.g.pay.api.TransactionService;
 import com.little.g.pay.dto.ChargeRecordDTO;
+import com.little.g.pay.dto.NormalUserAccount;
 import com.little.g.pay.dto.OrderResult;
 import com.little.g.pay.dto.PreorderDTO;
+import com.little.g.pay.enums.BusinessType;
+import com.little.g.pay.enums.FixAccount;
 import com.little.g.pay.enums.TradeType;
 import com.little.g.pay.mapper.ChargeRecordMapper;
 import com.little.g.pay.model.ChargeRecord;
@@ -28,6 +32,7 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Null;
 import java.util.List;
+import java.util.Objects;
 
 @Service("chargeService")
 public class ChargeServiceImpl implements ChargeService {
@@ -36,6 +41,8 @@ public class ChargeServiceImpl implements ChargeService {
     private ChargeRecordMapper chargeRecordMapper;
     @Resource
     private PreOrderService preOrderService;
+    @Resource
+    private TransactionService transactionService;
 
 
     public ChargeRecordDTO get(Long uid,String preorderNo){
@@ -114,9 +121,29 @@ public class ChargeServiceImpl implements ChargeService {
         example.or().andPreorderNoEqualTo(preorderNo);
         List<ChargeRecord>  recordList=chargeRecordMapper.selectByExample(example);
         if(CollectionUtils.isEmpty(recordList)){
-            throw new ServiceDataException(PayErrorCodes.PAY_ERROR,"");
+            throw new ServiceDataException(PayErrorCodes.PAY_ERROR,"msg.pay.charge.notexist");
+        }
+        ChargeRecord chargeRecord = recordList.get(0);
+
+        if(Objects.equals(StatusEnum.SUCCESS.getValue(), chargeRecord.getStatus())){
+            ChargeRecordDTO dto = new ChargeRecordDTO();
+            BeanUtils.copyProperties(chargeRecord,dto);
+            return dto;
         }
 
-        return null;
+        chargeRecord.setPayType(payType);
+        chargeRecord.setOutTranNum(thirdyPayNo);
+        chargeRecord.setStatus(StatusEnum.SUCCESS.getValue());
+        chargeRecord.setUpdateTime(System.currentTimeMillis());
+        if(chargeRecordMapper.updateByPrimaryKeySelective(chargeRecord)<=0){
+            throw new ServiceDataException(PayErrorCodes.PAY_ERROR,"msg.pay.unknow.exception");
+        }
+
+        transactionService.transfer(FixAccount.THIRD_PAY.getAccount(), new NormalUserAccount(chargeRecord.getUid()),chargeRecord.getMoney(),chargeRecord.getTranNum(), BusinessType.RECHARGE,"三方充值");
+
+        ChargeRecordDTO dto = new ChargeRecordDTO();
+        BeanUtils.copyProperties(chargeRecord,dto);
+
+        return dto;
     }
 }

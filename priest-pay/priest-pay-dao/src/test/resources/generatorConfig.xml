@@ -88,12 +88,15 @@
             <table tableName="preorder">
             </table>
 
-            <table tableName="charge_record">
+            <table tableName="preorder">
             </table>
+
         -->
 
-        <table tableName="preorder">
+        <table tableName="charge_record">
         </table>
+
+
 
 
 

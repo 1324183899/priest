@@ -434,52 +434,62 @@ public class ChargeRecordExample {
             return (Criteria) this;
         }
 
-        public Criteria andPayTypeEqualTo(Byte value) {
+        public Criteria andPayTypeEqualTo(String value) {
             addCriterion("pay_type =", value, "payType");
             return (Criteria) this;
         }
 
-        public Criteria andPayTypeNotEqualTo(Byte value) {
+        public Criteria andPayTypeNotEqualTo(String value) {
             addCriterion("pay_type <>", value, "payType");
             return (Criteria) this;
         }
 
-        public Criteria andPayTypeGreaterThan(Byte value) {
+        public Criteria andPayTypeGreaterThan(String value) {
             addCriterion("pay_type >", value, "payType");
             return (Criteria) this;
         }
 
-        public Criteria andPayTypeGreaterThanOrEqualTo(Byte value) {
+        public Criteria andPayTypeGreaterThanOrEqualTo(String value) {
             addCriterion("pay_type >=", value, "payType");
             return (Criteria) this;
         }
 
-        public Criteria andPayTypeLessThan(Byte value) {
+        public Criteria andPayTypeLessThan(String value) {
             addCriterion("pay_type <", value, "payType");
             return (Criteria) this;
         }
 
-        public Criteria andPayTypeLessThanOrEqualTo(Byte value) {
+        public Criteria andPayTypeLessThanOrEqualTo(String value) {
             addCriterion("pay_type <=", value, "payType");
             return (Criteria) this;
         }
 
-        public Criteria andPayTypeIn(List<Byte> values) {
+        public Criteria andPayTypeLike(String value) {
+            addCriterion("pay_type like", value, "payType");
+            return (Criteria) this;
+        }
+
+        public Criteria andPayTypeNotLike(String value) {
+            addCriterion("pay_type not like", value, "payType");
+            return (Criteria) this;
+        }
+
+        public Criteria andPayTypeIn(List<String> values) {
             addCriterion("pay_type in", values, "payType");
             return (Criteria) this;
         }
 
-        public Criteria andPayTypeNotIn(List<Byte> values) {
+        public Criteria andPayTypeNotIn(List<String> values) {
             addCriterion("pay_type not in", values, "payType");
             return (Criteria) this;
         }
 
-        public Criteria andPayTypeBetween(Byte value1, Byte value2) {
+        public Criteria andPayTypeBetween(String value1, String value2) {
             addCriterion("pay_type between", value1, value2, "payType");
             return (Criteria) this;
         }
 
-        public Criteria andPayTypeNotBetween(Byte value1, Byte value2) {
+        public Criteria andPayTypeNotBetween(String value1, String value2) {
             addCriterion("pay_type not between", value1, value2, "payType");
             return (Criteria) this;
         }
@@ -821,6 +831,11 @@ public class ChargeRecordExample {
 
         public Criteria andDescriptionLikeInsensitive(String value) {
             addCriterion("upper(description) like", value.toUpperCase(), "description");
+            return (Criteria) this;
+        }
+
+        public Criteria andPayTypeLikeInsensitive(String value) {
+            addCriterion("upper(pay_type) like", value.toUpperCase(), "payType");
             return (Criteria) this;
         }
 

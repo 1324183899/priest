@@ -14,7 +14,7 @@ public class ChargeRecordDTO implements Serializable {
 
     private String description;
 
-    private Byte payType;
+    private String payType;
 
     private String preorderNo;
 
@@ -68,11 +68,12 @@ public class ChargeRecordDTO implements Serializable {
         this.description = description == null ? null : description.trim();
     }
 
-    public Byte getPayType() {
+
+    public String getPayType() {
         return payType;
     }
 
-    public void setPayType(Byte payType) {
+    public void setPayType(String payType) {
         this.payType = payType;
     }
 

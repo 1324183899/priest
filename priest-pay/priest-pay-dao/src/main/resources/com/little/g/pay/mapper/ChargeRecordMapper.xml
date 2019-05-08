@@ -7,7 +7,7 @@
     <result column="money" jdbcType="BIGINT" property="money" />
     <result column="status" jdbcType="TINYINT" property="status" />
     <result column="description" jdbcType="VARCHAR" property="description" />
-    <result column="pay_type" jdbcType="TINYINT" property="payType" />
+    <result column="pay_type" jdbcType="VARCHAR" property="payType" />
     <result column="preorder_no" jdbcType="VARCHAR" property="preorderNo" />
     <result column="mch_id" jdbcType="VARCHAR" property="mchId" />
     <result column="out_tran_num" jdbcType="VARCHAR" property="outTranNum" />
@@ -112,7 +112,7 @@
       preorder_no, mch_id, out_tran_num, 
       create_time, update_time)
     values (#{tranNum,jdbcType=VARCHAR}, #{uid,jdbcType=BIGINT}, #{money,jdbcType=BIGINT}, 
-      #{status,jdbcType=TINYINT}, #{description,jdbcType=VARCHAR}, #{payType,jdbcType=TINYINT}, 
+      #{status,jdbcType=TINYINT}, #{description,jdbcType=VARCHAR}, #{payType,jdbcType=VARCHAR}, 
       #{preorderNo,jdbcType=VARCHAR}, #{mchId,jdbcType=VARCHAR}, #{outTranNum,jdbcType=VARCHAR}, 
       #{createTime,jdbcType=BIGINT}, #{updateTime,jdbcType=BIGINT})
   </insert>
@@ -170,7 +170,7 @@
         #{description,jdbcType=VARCHAR},
       </if>
       <if test="payType != null">
-        #{payType,jdbcType=TINYINT},
+        #{payType,jdbcType=VARCHAR},
       </if>
       <if test="preorderNo != null">
         #{preorderNo,jdbcType=VARCHAR},
@@ -214,7 +214,7 @@
         description = #{record.description,jdbcType=VARCHAR},
       </if>
       <if test="record.payType != null">
-        pay_type = #{record.payType,jdbcType=TINYINT},
+        pay_type = #{record.payType,jdbcType=VARCHAR},
       </if>
       <if test="record.preorderNo != null">
         preorder_no = #{record.preorderNo,jdbcType=VARCHAR},
@@ -243,7 +243,7 @@
       money = #{record.money,jdbcType=BIGINT},
       `status` = #{record.status,jdbcType=TINYINT},
       description = #{record.description,jdbcType=VARCHAR},
-      pay_type = #{record.payType,jdbcType=TINYINT},
+      pay_type = #{record.payType,jdbcType=VARCHAR},
       preorder_no = #{record.preorderNo,jdbcType=VARCHAR},
       mch_id = #{record.mchId,jdbcType=VARCHAR},
       out_tran_num = #{record.outTranNum,jdbcType=VARCHAR},
@@ -269,7 +269,7 @@
         description = #{description,jdbcType=VARCHAR},
       </if>
       <if test="payType != null">
-        pay_type = #{payType,jdbcType=TINYINT},
+        pay_type = #{payType,jdbcType=VARCHAR},
       </if>
       <if test="preorderNo != null">
         preorder_no = #{preorderNo,jdbcType=VARCHAR},
@@ -295,7 +295,7 @@
       money = #{money,jdbcType=BIGINT},
       `status` = #{status,jdbcType=TINYINT},
       description = #{description,jdbcType=VARCHAR},
-      pay_type = #{payType,jdbcType=TINYINT},
+      pay_type = #{payType,jdbcType=VARCHAR},
       preorder_no = #{preorderNo,jdbcType=VARCHAR},
       mch_id = #{mchId,jdbcType=VARCHAR},
       out_tran_num = #{outTranNum,jdbcType=VARCHAR},

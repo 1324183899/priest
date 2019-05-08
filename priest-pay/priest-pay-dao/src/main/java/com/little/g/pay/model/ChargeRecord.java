@@ -13,7 +13,7 @@ public class ChargeRecord implements Serializable {
 
     private String description;
 
-    private Byte payType;
+    private String payType;
 
     private String preorderNo;
 
@@ -67,12 +67,12 @@ public class ChargeRecord implements Serializable {
         this.description = description == null ? null : description.trim();
     }
 
-    public Byte getPayType() {
+    public String getPayType() {
         return payType;
     }
 
-    public void setPayType(Byte payType) {
-        this.payType = payType;
+    public void setPayType(String payType) {
+        this.payType = payType == null ? null : payType.trim();
     }
 
     public String getPreorderNo() {
