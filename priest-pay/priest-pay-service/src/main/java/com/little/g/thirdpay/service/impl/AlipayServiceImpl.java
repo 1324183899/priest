@@ -19,10 +19,7 @@ import com.alipay.api.response.AlipayTradeRefundResponse;
 import com.little.g.common.utils.JSR303Util;
 import com.little.g.common.utils.MoneyUtil;
 import com.little.g.pay.PayErrorCodes;
-import com.little.g.thirdpay.dto.PayCallbackInfo;
-import com.little.g.thirdpay.dto.PrePayResult;
-import com.little.g.thirdpay.dto.PreRefundResult;
-import com.little.g.thirdpay.dto.RefundResult;
+import com.little.g.thirdpay.dto.*;
 import com.little.g.common.enums.PayType;
 import com.little.g.thirdpay.enums.ThirdPayStatus;
 import com.little.g.thirdpay.enums.ThirdRefundStatus;
@@ -61,6 +58,9 @@ public class AlipayServiceImpl extends ThirdPayService {
         alipayClient=new DefaultAlipayClient("https://openapi.alipay.com/gateway.do", config.getAppid(), config.getPrivatekey(), "json", "UTF-8", config.getPublickey(), "RSA2");
 
     }
+
+
+    private PayResponseInfo SUCCESS_RESPONSE = new PayResponseInfo("success");
 
     @Override
     public void setPayChannel(String payChannel) {
@@ -236,5 +236,10 @@ public class AlipayServiceImpl extends ThirdPayService {
             e.printStackTrace();
         }
         return null;
+    }
+
+    @Override
+    public PayResponseInfo successPayResponse() {
+        return SUCCESS_RESPONSE;
     }
 }

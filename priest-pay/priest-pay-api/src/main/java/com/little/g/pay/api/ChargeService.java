@@ -1,5 +1,6 @@
 package com.little.g.pay.api;
 
+import com.little.g.common.validate.annatations.PayType;
 import com.little.g.pay.dto.ChargeRecordDTO;
 import com.little.g.pay.dto.OrderResult;
 import com.little.g.pay.params.ChargeParams;
@@ -23,4 +24,13 @@ public interface ChargeService {
      * @return
      */
     OrderResult createChargeOrder(@NotNull Long uid, @NotNull @Min(1)Long money);
+
+    /**
+     *  更新充值成功状态
+     * @param preorderNo
+     * @param payType
+     * @param thirdyPayNo
+     * @return
+     */
+    ChargeRecordDTO chargeSuccess(@NotEmpty String preorderNo,@PayType String payType,@NotEmpty String thirdyPayNo);
 }

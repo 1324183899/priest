@@ -14,13 +14,18 @@ import com.little.g.pay.enums.BusinessType;
 import com.little.g.pay.enums.FixAccount;
 import com.little.g.pay.enums.MerchantId;
 import com.little.g.pay.enums.TradeType;
+import com.little.g.pay.model.Preorder;
 import com.little.g.pay.params.ChargeParams;
 import com.little.g.thirdpay.api.ThirdpayApi;
+import com.little.g.thirdpay.dto.PayCallbackInfo;
 import com.little.g.thirdpay.dto.PrePayResult;
+import com.little.g.thirdpay.enums.ThirdPayStatus;
 import com.little.g.thirdpay.model.PayChannel;
 import com.little.g.thirdpay.params.PrepayParams;
 import com.little.g.thirdpay.service.impl.ThirdPayFactory;
 import org.apache.commons.collections.CollectionUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -28,12 +33,15 @@ import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
 @Service("littlePayService")
 public class LittlePayServiceImpl implements LittlePayService {
+
+    private static final Logger log = LoggerFactory.getLogger(LittlePayServiceImpl.class);
 
     static List<PayTypeDTO> payTypeList = new ArrayList<>();
     @Resource
@@ -147,8 +155,34 @@ public class LittlePayServiceImpl implements LittlePayService {
         BusinessType btype=BusinessType.valueOf(preorderDTO.getBtype());
         transactionService.transfer(from,to,preorderDTO.getTotalFee(),preorderDTO.getOutTradeNo(),btype,preorderDTO.getSubject());
         //支付成功更新预支付订单支付状态
-        preOrderService.updateStatus(uid,preorderNo,StatusEnum.SUCCESS.getValue(), PayType.BALANCE);
+        preOrderService.updateStatus(uid,preorderNo,StatusEnum.SUCCESS.getValue(), PayType.BALANCE,null);
 
         return r;
+    }
+
+    @Override
+    public void thirdpayCallback(String payType, @NotNull PayCallbackInfo callbackInfo) {
+        log.debug("receive paytype:{} callbackInfo:{}",payType,callbackInfo);
+        if(!Objects.equals(ThirdPayStatus.SUCCESS,callbackInfo.getThirdPayStatus())){
+            //支付成功
+            throw new ServiceDataException(PayErrorCodes.PAY_ERROR,"msg.thirdpay.failed");
+        }
+
+        PreorderDTO preorderDTO= preOrderService.get(MerchantId.LittelG.getValue(),callbackInfo.getOutPayOrderId());
+        if(preorderDTO == null){
+            throw new ServiceDataException(PayErrorCodes.PAY_ERROR,"msg.pay.preorder.notexist");
+        }
+        if(Objects.equals(preorderDTO.getStatus(),StatusEnum.SUCCESS.getValue())){
+            return;
+        }
+        if(!Objects.equals(preorderDTO.getStatus(),StatusEnum.INIT.getValue())){
+            throw new ServiceDataException(PayErrorCodes.PAY_ERROR,"msg.pay.status.error");
+        }
+        if(!Objects.equals(preorderDTO.getTotalFee(),callbackInfo.getRealFee())){
+            throw new ServiceDataException(PayErrorCodes.PAY_ERROR,"msg.thirdpay.money.mismatch");
+        }
+        preOrderService.updateStatus(preorderDTO.getAccountId(),preorderDTO.getPreOrderNo(),StatusEnum.SUCCESS.getValue(),payType,callbackInfo.getOutPayOrderId());
+
+
     }
 }

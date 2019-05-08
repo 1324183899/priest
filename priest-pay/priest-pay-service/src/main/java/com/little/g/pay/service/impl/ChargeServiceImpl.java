@@ -1,6 +1,8 @@
 package com.little.g.pay.service.impl;
 
 import com.little.g.common.enums.StatusEnum;
+import com.little.g.common.exception.ServiceDataException;
+import com.little.g.pay.PayErrorCodes;
 import com.little.g.pay.api.ChargeService;
 import com.little.g.pay.api.PreOrderService;
 import com.little.g.pay.dto.ChargeRecordDTO;
@@ -16,11 +18,13 @@ import com.little.g.pay.utils.TransactionNumUtil;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
 import javax.annotation.Resource;
 import javax.validation.Valid;
 import javax.validation.constraints.Min;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Null;
 import java.util.List;
@@ -100,5 +104,19 @@ public class ChargeServiceImpl implements ChargeService {
         result.setTranNo(tranNum);
         return result;
 
+    }
+
+
+    @Transactional
+    @Override
+    public ChargeRecordDTO chargeSuccess(@NotEmpty String preorderNo, String payType, @NotEmpty String thirdyPayNo) {
+        ChargeRecordExample example = new ChargeRecordExample();
+        example.or().andPreorderNoEqualTo(preorderNo);
+        List<ChargeRecord>  recordList=chargeRecordMapper.selectByExample(example);
+        if(CollectionUtils.isEmpty(recordList)){
+            throw new ServiceDataException(PayErrorCodes.PAY_ERROR,"");
+        }
+
+        return null;
     }
 }

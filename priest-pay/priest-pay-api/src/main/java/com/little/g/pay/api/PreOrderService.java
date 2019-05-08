@@ -32,9 +32,10 @@ public interface PreOrderService {
      * @param uid 用户ID
      * @param preorderNo  预支付订单
      * @param status 状态值
+     * @param thirdyPayNo 三方支付流水
      * @return
      */
-    boolean updateStatus(@NotNull Long uid,@NotEmpty String preorderNo,Byte status,@NotEmpty String payType);
+    boolean updateStatus(@NotNull Long uid,@NotEmpty String preorderNo,Byte status,@NotEmpty String payType,String thirdyPayNo);
 
 
 }

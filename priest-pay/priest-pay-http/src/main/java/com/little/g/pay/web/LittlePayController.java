@@ -9,6 +9,7 @@ import com.little.g.pay.dto.OrderResult;
 import com.little.g.pay.dto.PayTypeDTO;
 import com.little.g.thirdpay.api.ThirdpayApi;
 import com.little.g.thirdpay.dto.PayCallbackInfo;
+import com.little.g.thirdpay.dto.PayResponseInfo;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -72,7 +73,8 @@ public class LittlePayController {
     }
 
     @RequestMapping(value = "/{payType}/callback")
-    public ResultJson callback(@PathVariable("payType") String payType, @RequestBody String body, HttpServletRequest request){
+    @ResponseBody
+    public String callback(@PathVariable("payType") String payType, @RequestBody String body, HttpServletRequest request){
         PayCallbackInfo callbackInfo;
         if(PayType.WEXINPAY.equals(payType)){
             callbackInfo=thirdpayApi.verifyBodyResponse(payType,body);
@@ -93,9 +95,11 @@ public class LittlePayController {
             }
             callbackInfo=thirdpayApi.verifyResponse(payType,params);
         }
+        littlePayService.thirdpayCallback(payType,callbackInfo);
 
+        PayResponseInfo resp=thirdpayApi.successPayResponse(payType);
 
-        return null;
+        return resp.getResponse();
     }
 
 }

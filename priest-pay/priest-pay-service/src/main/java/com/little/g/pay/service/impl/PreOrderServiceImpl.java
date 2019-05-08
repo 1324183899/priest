@@ -2,6 +2,7 @@ package com.little.g.pay.service.impl;
 
 import com.alibaba.fastjson.JSONObject;
 import com.little.g.common.ResultJson;
+import com.little.g.common.enums.PayType;
 import com.little.g.common.enums.StatusEnum;
 import com.little.g.common.exception.ServiceDataException;
 import com.little.g.common.utils.HttpUtils;
@@ -9,6 +10,7 @@ import com.little.g.pay.PayErrorCodes;
 import com.little.g.pay.api.PreOrderService;
 import com.little.g.pay.dto.PreorderDTO;
 import com.little.g.pay.enums.MerchantId;
+import com.little.g.pay.enums.TradeType;
 import com.little.g.pay.mapper.PreorderMapper;
 import com.little.g.pay.model.Preorder;
 import com.little.g.pay.model.PreorderExample;
@@ -108,7 +110,7 @@ public class PreOrderServiceImpl implements PreOrderService {
 
     @Transactional
     @Override
-    public boolean updateStatus(@NotNull Long uid, @NotEmpty String preorderNo, Byte status, @NotEmpty String payType) {
+    public boolean updateStatus(@NotNull Long uid, @NotEmpty String preorderNo, Byte status, @NotEmpty String payType,String thirdyPayNo) {
 
         PreorderExample example=new PreorderExample();
         example.or().andAccountIdEqualTo(uid)
@@ -125,8 +127,16 @@ public class PreOrderServiceImpl implements PreOrderService {
         preorder.setUpdateTime(System.currentTimeMillis());
 
         boolean r=preorderMapper.updateByPrimaryKeySelective(preorder)>0;
-        //成功
-        if(Objects.equals(StatusEnum.SUCCESS,status)){
+
+
+        if(!Objects.equals(PayType.BALANCE,payType) || Objects.equals(TradeType.CHARGE.getValue(),preorder.getTradeType())){
+            //先充值，后扣款
+
+
+        }
+
+        //成功并且非充值支付
+        if(Objects.equals(StatusEnum.SUCCESS,status) && !Objects.equals(TradeType.CHARGE.getValue(),preorder.getTradeType())){
             //发送通知
             if(StringUtils.isNotEmpty(preorder.getNotifyUrl())){
                 //发送通知
