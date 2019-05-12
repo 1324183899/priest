@@ -418,6 +418,12 @@
                 <artifactId>weixin-java-pay</artifactId>
                 <version>3.3.0</version>
             </dependency>
+
+            <dependency>
+                <groupId>com.arronlong</groupId>
+                <artifactId>httpclientutil</artifactId>
+                <version>1.0.4</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 

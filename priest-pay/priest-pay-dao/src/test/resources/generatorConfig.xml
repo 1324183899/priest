@@ -43,19 +43,19 @@
             <property name="forceBigDecimals" value="false" />
         </javaTypeResolver>
 
-        <javaModelGenerator targetPackage="com.little.g.thirdpay.model"
+        <javaModelGenerator targetPackage="com.little.g.pay.model"
                             targetProject="${project.basedir}/src/main/java">
             <property name="enableSubPackages" value="true" />
             <property name="trimStrings" value="true" />
         </javaModelGenerator>
 
-        <sqlMapGenerator targetPackage="com.little.g.thirdpay.mapper"
+        <sqlMapGenerator targetPackage="com.little.g.pay.mapper"
                          targetProject="${project.basedir}/src/main/resources">
             <property name="enableSubPackages" value="true" />
         </sqlMapGenerator>
 
         <javaClientGenerator type="XMLMAPPER"
-                             targetPackage="com.little.g.thirdpay.mapper" targetProject="${project.basedir}/src/main/java">
+                             targetPackage="com.little.g.pay.mapper" targetProject="${project.basedir}/src/main/java">
             <property name="enableSubPackages" value="true" />
         </javaClientGenerator>
 
@@ -81,12 +81,20 @@
 
             <table tableName="transaction_record">
             </table>
+
+            <table tableName="pay_channel">
+            </table>
+
+            <table tableName="preorder">
+            </table>
+
+            <table tableName="preorder">
+            </table>
+
         -->
 
-        <table tableName="pay_channel">
+        <table tableName="charge_record">
         </table>
-
-
 
 
 

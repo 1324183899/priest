@@ -11,20 +11,15 @@ import com.github.binarywang.wxpay.bean.request.WxPayUnifiedOrderRequest;
 import com.github.binarywang.wxpay.bean.result.WxPayOrderQueryResult;
 import com.github.binarywang.wxpay.bean.result.WxPayRefundQueryResult;
 import com.github.binarywang.wxpay.bean.result.WxPayRefundResult;
-import com.github.binarywang.wxpay.bean.result.WxPayUnifiedOrderResult;
 import com.github.binarywang.wxpay.config.WxPayConfig;
 import com.github.binarywang.wxpay.exception.WxPayException;
 import com.github.binarywang.wxpay.service.WxPayService;
 import com.github.binarywang.wxpay.service.impl.WxPayServiceImpl;
-import com.google.gson.JsonObject;
+import com.little.g.common.enums.PayType;
 import com.little.g.common.utils.CommonUtils;
 import com.little.g.common.utils.JSR303Util;
 import com.little.g.pay.PayErrorCodes;
-import com.little.g.thirdpay.dto.PayCallbackInfo;
-import com.little.g.thirdpay.dto.PrePayResult;
-import com.little.g.thirdpay.dto.PreRefundResult;
-import com.little.g.thirdpay.dto.RefundResult;
-import com.little.g.common.enums.PayType;
+import com.little.g.thirdpay.dto.*;
 import com.little.g.thirdpay.enums.ThirdPayStatus;
 import com.little.g.thirdpay.enums.ThirdRefundStatus;
 import com.little.g.thirdpay.exception.PayException;
@@ -55,6 +50,8 @@ public class WxpayServiceImpl extends ThirdPayService {
     WxPayService wxPayService=new WxPayServiceImpl();
 
     DateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHmmss");
+
+    private static final PayResponseInfo SUCCESS_RESPONSE = new PayResponseInfo("<xml><return_code><![CDATA[SUCCESS]]></return_code><return_msg><![CDATA[OK]]></return_msg></xml>");
 
     public WxpayServiceImpl(WxpayConfig config) {
         String valid=JSR303Util.validateParams(config);
@@ -309,5 +306,10 @@ public class WxpayServiceImpl extends ThirdPayService {
             throw new PayException(e);
         }
 
+    }
+
+    @Override
+    public PayResponseInfo successPayResponse() {
+        return SUCCESS_RESPONSE;
     }
 }

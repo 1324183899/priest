@@ -65,4 +65,11 @@ public interface ThirdpayApi {
      */
     RefundResult queryRefund(@PayType String payType,@Valid QueryRefundParams params);
 
+    /**
+     * 支付成功回调
+     * @param payType
+     * @return
+     */
+    PayResponseInfo successPayResponse(@PayType String payType);
+
 }
