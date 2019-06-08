@@ -11,7 +11,7 @@
     <dubbo:registry address="${zookeeper.url}"/>
 
 
-    <dubbo:reference id="userService" interface="com.little.g.demo.api.UserService" />
+    <dubbo:reference id="userService" interface="com.little.g.demo.api.UserService" validation="true" />
 
 
 </beans>
