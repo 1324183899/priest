@@ -1,6 +1,7 @@
 package com.little.g.demo.web;
 
 import com.little.g.demo.api.UserService;
+import com.little.g.demo.dto.UserDTO;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -17,7 +18,8 @@ public class PriestDemoHttpApplicationTests {
 
 	@Test
 	public void contextLoads() {
-		userService.add(null);
+		UserDTO user=new UserDTO();
+		userService.add(user);
 	}
 
 }
