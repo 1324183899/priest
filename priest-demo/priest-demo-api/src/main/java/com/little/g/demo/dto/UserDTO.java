@@ -1,13 +1,16 @@
 package com.little.g.demo.dto;
 
+import com.little.g.demo.api.UserService;
+
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
 
 public class UserDTO implements Serializable {
     private Integer id;
-    @Size(max = 20,message = "myName{test}")
+    @Size(max = 20,message = "myName{test}",groups = UserService.Add.class)
     private String myName;
-
+    @NotNull(groups = UserService.Update.class)
     private Integer age;
 
     private String mobile;

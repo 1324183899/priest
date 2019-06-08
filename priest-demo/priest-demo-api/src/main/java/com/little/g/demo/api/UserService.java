@@ -4,20 +4,25 @@ import com.little.g.common.dto.ListResultDTO;
 import com.little.g.common.params.TimeQueryParam;
 import com.little.g.demo.dto.UserDTO;
 
+import javax.validation.GroupSequence;
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 /**
  * Created by lengligang on 2019/3/9.
  */
 public interface UserService {
+    @GroupSequence(Update.class)
+    @interface Add{}
     /**
      * 添加
      * @param entity
      * @return
      */
-    boolean add(@Valid UserDTO entity);
+    boolean add(@NotNull UserDTO entity);
 
+    @interface Update{}
     /**
      * 根据id获取
      * @param id
@@ -30,7 +35,7 @@ public interface UserService {
      * @param entity
      * @return
      */
-    boolean update(@Valid UserDTO entity);
+    boolean update(@NotNull UserDTO entity);
 
     /**
      * 删除
