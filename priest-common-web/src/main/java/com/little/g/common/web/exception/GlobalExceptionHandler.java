@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.ConstraintViolationException;
 
 @ControllerAdvice
 public class GlobalExceptionHandler {
@@ -69,6 +70,10 @@ public class GlobalExceptionHandler {
                 r.setM(service.getMessage());
             }
             log.error("Request ServiceDataException url:{},e",req.getRequestURI(),e.getMessage());
+        }else if(e instanceof ConstraintViolationException){
+            ConstraintViolationException violationException= (ConstraintViolationException) e;
+            r.setC(ResultJson.INVALID_PARAM);
+            r.setM(violationException.getMessage());
         }else {
             log.error("Request exception url:{},e",req.getRequestURI(),e);
         }
