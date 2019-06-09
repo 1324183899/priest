@@ -339,8 +339,13 @@ CREATE TABLE `order` (
 
 ### 支持
 
+<p align="center">
+	<img src="wiki_images/AppreciationCode.jpg" alt="打赏码"  width="250" height="140">
+	<p align="center">
+		<em>打赏码</em>
+	</p>
+</p>
 
-![](wiki_images/AppreciationCode.jpg)
 
 
 
