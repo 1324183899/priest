@@ -337,10 +337,15 @@ CREATE TABLE `order` (
 #### 最后项目重新编译运行，新开发的接口就可以测试了
 
 
-###支持
+### 支持
 
+<p align="center">
+	<img src="wiki_images/AppreciationCode.jpg" alt="打赏码"  width="300">
+	<p align="center">
+		<em>打赏码</em>
+	</p>
+</p>
 
-![](wiki_images/AppreciationCode.jpg)
 
 
 
