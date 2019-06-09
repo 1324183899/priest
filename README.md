@@ -1,5 +1,9 @@
 # priest
  dubbo mybatis springboot base soa rest api framework with customer code generator
+ 
+
+交流QQ群：827488491 、798956810 🈵
+
 
 
 ## 前言
@@ -332,6 +336,9 @@ CREATE TABLE `order` (
 
 #### 最后项目重新编译运行，新开发的接口就可以测试了
 
+
+
+![](wiki_images/AppreciationCode.jpg)
 
 
 
