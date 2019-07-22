@@ -85,10 +85,12 @@ public class GlobalExceptionHandler {
                     sb.append(",");
                 }
                 sb.deleteCharAt(sb.length()-1);
+                r.setM(sb.toString());
             }else {
                 r.setM(violationException.getMessage());
             }
         }else {
+            r.setM(e.getMessage());
             log.error("Request exception url:{},e",req.getRequestURI(),e);
         }
         return r;
