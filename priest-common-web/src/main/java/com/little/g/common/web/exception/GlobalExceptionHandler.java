@@ -8,6 +8,7 @@ import org.apache.dubbo.rpc.RpcException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.MessageSource;
+import org.springframework.util.CollectionUtils;
 import org.springframework.validation.BindException;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
 
 @ControllerAdvice
@@ -75,7 +77,17 @@ public class GlobalExceptionHandler {
         }else if(e instanceof ConstraintViolationException){
             ConstraintViolationException violationException= (ConstraintViolationException) e;
             r.setC(ResultJson.INVALID_PARAM);
-            r.setM(violationException.getMessage());
+            if (!CollectionUtils.isEmpty(violationException.getConstraintViolations())){
+                StringBuilder sb =new StringBuilder();
+                for(ConstraintViolation ce:violationException.getConstraintViolations()){
+                    sb.append(ce.getPropertyPath());
+                    sb.append(ce.getMessage());
+                    sb.append(",");
+                }
+                sb.deleteCharAt(sb.length()-1);
+            }else {
+                r.setM(violationException.getMessage());
+            }
         }else {
             log.error("Request exception url:{},e",req.getRequestURI(),e);
         }
