@@ -90,7 +90,7 @@ public class GlobalExceptionHandler {
                 r.setM(violationException.getMessage());
             }
         }else {
-            r.setM(e.getMessage());
+            //r.setM(e.getMessage());
             log.error("Request exception url:{},e",req.getRequestURI(),e);
         }
         return r;
