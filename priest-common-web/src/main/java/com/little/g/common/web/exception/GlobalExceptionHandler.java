@@ -36,14 +36,16 @@ public class GlobalExceptionHandler {
     public ResultJson bindException(BindException e) {
         BindingResult bindingResult = e.getBindingResult();
 
-        String errorMesssage = "";
+        StringBuilder sb = new StringBuilder();
 
         for (FieldError fieldError : bindingResult.getFieldErrors()) {
-            errorMesssage += fieldError.getDefaultMessage() + ", ";
+            sb.append(fieldError.getField()+fieldError.getDefaultMessage());
+            sb.append(",");
         }
+        sb.deleteCharAt(sb.length()-1);
         ResultJson r=new ResultJson();
         r.setC(ResultJson.INVALID_PARAM);
-        r.setM(errorMesssage);
+        r.setM(sb.toString());
         return r;
 }
 
