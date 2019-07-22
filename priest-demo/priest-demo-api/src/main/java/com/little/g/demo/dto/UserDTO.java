@@ -7,6 +7,7 @@ import javax.validation.constraints.Size;
 import java.io.Serializable;
 
 public class UserDTO implements Serializable {
+    @NotNull
     private Integer id;
     @Size(max = 20,message = "myName{test}",groups = UserService.Add.class)
     private String myName;
