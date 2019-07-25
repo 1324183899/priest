@@ -11,7 +11,10 @@ import javax.validation.constraints.NotNull;
 import java.util.List;
 
 public interface LittlePayService {
-
+    /**
+     * 支付方式列表
+     * @return
+     */
     List<PayTypeDTO> typeList();
 
     /**

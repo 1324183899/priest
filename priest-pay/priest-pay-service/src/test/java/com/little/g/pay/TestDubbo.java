@@ -1,4 +1,4 @@
-package com.little.g.demo;
+package com.little.g.pay;
 
 import org.apache.dubbo.container.Main;
 
