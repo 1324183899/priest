@@ -241,6 +241,7 @@
             </dependency>
 
 
+
             <dependency>
                 <groupId>com.fasterxml.jackson.module</groupId>
                 <artifactId>jackson-module-afterburner</artifactId>
@@ -424,6 +425,12 @@
                 <groupId>com.arronlong</groupId>
                 <artifactId>httpclientutil</artifactId>
                 <version>1.0.4</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.glassfish</groupId>
+                <artifactId>javax.el</artifactId>
+                <version>3.0.1-b09</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

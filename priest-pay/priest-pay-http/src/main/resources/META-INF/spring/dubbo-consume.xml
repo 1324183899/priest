@@ -11,6 +11,9 @@
     <dubbo:registry address="${zookeeper.url}"/>
 
     <dubbo:reference interface="com.little.g.thirdpay.api.ThirdpayApi" id="thirdpayApi" validation="true" timeout="2000" />
+    <dubbo:reference interface="com.little.g.pay.api.LittlePayService" id="littlePayService" validation="true" timeout="2000" />
+    <dubbo:reference interface="com.little.g.pay.api.ChargeService" id="chargeService" validation="true" timeout="2000" />
+    <dubbo:reference interface="com.little.g.user.api.TokenService" id="tokenService" validation="true" timeout="2000" />
 
 
 
