@@ -5,8 +5,8 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
 	   http://dubbo.apache.org/schema/dubbo  http://dubbo.apache.org/schema/dubbo/dubbo.xsd">
 
-    <dubbo:application name="com.little.g.demo" logger="slf4j"/>
-    <dubbo:protocol name="dubbo" />
+    <dubbo:application name="com.little.g.user" logger="slf4j" />
+    <dubbo:protocol name="dubbo" port="-1"/>
     <dubbo:registry address="${zookeeper.url}"/>
     <dubbo:service interface="com.little.g.user.api.SmsService" ref="smsService"  retries="0" />
     <dubbo:service interface="com.little.g.user.api.UserService" ref="userService" retries="0" />
