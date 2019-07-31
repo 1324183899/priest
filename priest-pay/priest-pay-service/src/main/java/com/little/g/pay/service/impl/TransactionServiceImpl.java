@@ -2,7 +2,9 @@ package com.little.g.pay.service.impl;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Lists;
+import com.little.g.common.dto.ListResultDTO;
 import com.little.g.common.exception.ServiceDataException;
+import com.little.g.common.params.UidTimeQueryParam;
 import com.little.g.pay.PayErrorCodes;
 import com.little.g.pay.api.TransactionService;
 import com.little.g.pay.dto.*;
@@ -28,11 +30,13 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service("transactionService")
 public class TransactionServiceImpl implements TransactionService {
@@ -356,7 +360,30 @@ public class TransactionServiceImpl implements TransactionService {
     }
 
 
+    @Override
+    public ListResultDTO<TransactionRecordDTO> list(UidTimeQueryParam param) {
+        NormalUserAccount account =new NormalUserAccount(param.getUid());
 
+        TransactionRecordExample example = new TransactionRecordExample();
+        TransactionRecordExample.Criteria criteria = example.createCriteria();
+        ListResultDTO<TransactionRecordDTO> result = param.getResult(ListResultDTO.class);
+        criteria.andAccountIdEqualTo(account.getId());
+        criteria.andCreateTimeLessThanOrEqualTo(param.getLast());
+        example.setOrderByClause(String.format("create_time desc limit %d", result.getLimit()));
+        List<TransactionRecord> list = transactionRecordMapper.selectByExample(example);
+
+        if(CollectionUtils.isEmpty(list)){
+           return result;
+        }
+        result.setLast(list.get(list.size() - 1).getCreateTime());
+        result.setList(list.stream().map(entity -> {
+            TransactionRecordDTO dto =new TransactionRecordDTO();
+            BeanUtils.copyProperties(entity, dto);
+            return dto;
+        }).collect(Collectors.toList()));
+
+        return result;
+    }
 
     private List<TransactionRecordDTO> copyTransactionDetailProperties(List<TransactionRecord> transactionDetailList) {
         List<TransactionRecordDTO> transactionDetailDTOList = new ArrayList<>();

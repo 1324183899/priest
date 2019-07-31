@@ -14,6 +14,7 @@
     <dubbo:service interface="com.little.g.thirdpay.api.ThirdpayApi" ref="thirdpayApi" retries="0" />
     <dubbo:service interface="com.little.g.pay.api.LittlePayService" ref="littlePayService" retries="0" />
     <dubbo:service interface="com.little.g.pay.api.ChargeService" ref="chargeService" retries="0" />
+    <dubbo:service interface="com.little.g.pay.api.TransactionService" ref="transactionService" retries="0" />
 
 
     <dubbo:reference interface="com.little.g.user.api.UserService" id="userService" />
