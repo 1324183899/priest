@@ -2,6 +2,7 @@ package com.little.g.pay.web;
 
 import com.little.g.common.ResultJson;
 import com.little.g.common.enums.PayType;
+import com.little.g.common.utils.MoneyUtil;
 import com.little.g.common.web.interceptor.HeaderParamsHolder;
 import com.little.g.pay.api.ChargeService;
 import com.little.g.pay.api.LittlePayService;
@@ -45,9 +46,10 @@ public class LittlePayController {
     }
 
     @RequestMapping("/charge")
-    public ResultJson charge(@RequestParam Long money){
+    public ResultJson charge(@RequestParam Double money){
         Long uid=HeaderParamsHolder.getHeader().getUid();
-        OrderResult r=chargeService.createChargeOrder(uid,money);
+        Long moneyFen= MoneyUtil.double2Long(money);
+        OrderResult r=chargeService.createChargeOrder(uid,moneyFen);
 
         ResultJson result=new ResultJson();
         result.setData(r);

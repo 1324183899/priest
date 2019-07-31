@@ -1,12 +1,13 @@
 package com.little.g.pay.api;
 
 
+import com.little.g.common.dto.ListResultDTO;
+import com.little.g.common.params.UidTimeQueryParam;
 import com.little.g.pay.dto.Account;
 import com.little.g.pay.dto.AccountDetailDTO;
 import com.little.g.pay.dto.CheckBalanceResultDTO;
 import com.little.g.pay.dto.TransactionRecordDTO;
 import com.little.g.pay.enums.BusinessType;
-import org.springframework.data.domain.Page;
 
 import java.util.List;
 
@@ -15,6 +16,9 @@ import java.util.List;
  * Created by zhaoyao on 16/5/6.
  */
 public interface TransactionService {
+
+
+
 
     void createAccount(Account account);
 
@@ -35,6 +39,9 @@ public interface TransactionService {
     List<TransactionRecordDTO> queryTransactionDetailByTransNum(String transNum);
 
     List<TransactionRecordDTO> listTransactions(Account account, Long startTime, Long endTime, Integer limit);
+
+
+    ListResultDTO<TransactionRecordDTO> list(UidTimeQueryParam param);
 
 
 }
