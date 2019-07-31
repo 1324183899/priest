@@ -25,6 +25,12 @@
 
 ## 更新日志
 
+2019-07-31
+ 
+* 补充完善交易模块设计
+* 交易系统设计文档整理 [交易系统文档](https://github.com/G-little/priest/tree/master/priest-pay)
+
+
 2019-06-08
  
 * 修改demo 模块dubbo 原生JSR303验证
